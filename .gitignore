@@ -3,4 +3,6 @@ GRTAGS
 GTAGS
 bin/
 obj/
+html/
+latex/
 *~
