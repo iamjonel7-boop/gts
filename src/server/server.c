@@ -31,8 +31,10 @@ void send_error(int client_socket, int code, const char *message)
 		message_t msg;
 		memset(&msg, 0, sizeof(msg));
 		msg.type = MSG_ERROR;
-		memcpy(msg.data, &error, sizeof(error));
-		msg.length = sizeof(msg);
+		size_t error_size = sizeof(error);
+		if(error_size > sizeof(msg.data)) {error_size = sizeof(msg.data);}
+		memcpy(msg.data, &error, error_size);
+		msg.length = sizeof(msg.type) + sizeof(msg.seq) + error_size;
 
 		send_message(client_socket, &msg);
 }
