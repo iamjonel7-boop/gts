@@ -123,6 +123,7 @@ void *handle_client(void *arg)
 				switch(msg.type)
 				{
 				case MSG_LOGIN:
+				{
 						login_req_t *login = (login_req_t *)msg.data;
 						strncpy(username, login->username, sizeof(username) - 1);
 						printf("Client authenticated as: %s\n", username);
@@ -131,6 +132,7 @@ void *handle_client(void *arg)
 						init_message(&response, MSG_LOGIN, "Login successful");
 						send_message(client_socket, &response);
 						break;
+				}
 
 				case MSG_GET_TIME:
 						handle_get_time(client_socket);
@@ -145,11 +147,13 @@ void *handle_client(void *arg)
 						break;
 
 				case MSG_PING:
+				{
 						message_t ping;
 						init_message(&ping, MSG_PING, "PING");
 						send_message(client_socket, &ping);
 						printf("Sent ping to client\n");
 						break;
+				}
 
 				default:
 						send_error(client_socket, 400, "Unknown command");
